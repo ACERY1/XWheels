@@ -167,5 +167,3 @@ XMediaRecorder.prototype.showStream = function (videoElementId, stream) {
 	document.getElementById(videoElementId).srcObject = stream
 }
 
-
-
