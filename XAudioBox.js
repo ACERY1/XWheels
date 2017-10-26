@@ -1,11 +1,11 @@
-/**
- * 音频操作盒
- */
-
-
 // 接入stream输出数组
 // 后期实现解码音频 输出数组 需要建立动画帧
 // 建立实例化计数
+
+/**
+ * 构造函数不需要传参
+ * @constructor
+ */
 function XAudioBox() {
 	this.audioCtx = null // for audioContext
 	this.streamSource = null // store mediaStream in audioCtx
@@ -19,6 +19,9 @@ function XAudioBox() {
 XAudioBox.boxCount = 0; // static
 XAudioBox.maxCount = 6; // static
 
+/**
+ * 初始化XAudioBox
+ */
 XAudioBox.prototype.initBox = function () {
 	if (XAudioBox.boxCount >= XAudioBox.maxCount) {
 		console.error('Reach max XAB count')
@@ -28,7 +31,10 @@ XAudioBox.prototype.initBox = function () {
 	this.audioCtx = new AudioContext()
 }
 
-// 加载音频流
+/**
+ * 加载音频流
+ * @param stream 音频流
+ */
 XAudioBox.prototype.loadStream = function (stream) {
 	if (this.isInit) {
 		this.streamSource = this.audioCtx.createMediaStreamSource(stream);
@@ -37,7 +43,10 @@ XAudioBox.prototype.loadStream = function (stream) {
 	}
 }
 
-// 创建取样数组
+/**
+ * 创建取样数组
+ * @param arrLength 传入数组的长度
+ */
 XAudioBox.prototype.createDataArray = function (arrLength) {
 	if (this.isInit) {
 		if (!this.analyser) {
@@ -53,7 +62,10 @@ XAudioBox.prototype.createDataArray = function (arrLength) {
 	}
 }
 
-// 实时捕获并输出数据
+/**
+ * 实时捕获并输出数据
+ * @param fn 回调函数
+ */
 XAudioBox.prototype.outputData = function (fn) {
 	if(!this.animationId){
 		let _ani = () => {
@@ -69,7 +81,10 @@ XAudioBox.prototype.outputData = function (fn) {
 }
 
 
-// 从文件加载
+/**
+ * 从文件加载音频
+ * @param audioSrc 音频文件路径
+ */
 XAudioBox.prototype.loadSrc = function (audioSrc) {
 	if (this.isInit) {
 		this.audioObj = new Audio()
@@ -87,14 +102,19 @@ XAudioBox.prototype.loadSrc = function (audioSrc) {
 	}
 }
 
-// 播放音频
+/**
+ * 播放音频
+ * @param ${number} 传入0~1表示0%~100%的音量
+ */
 XAudioBox.prototype.playSrc = function (volume) {
 	this.analyser.connect(this.audioCtx.destination)
 	this.audioObj.volume = volume
 	this.audioObj.play()
 }
 
-// 关闭动画和audioCtx
+/**
+ * 关闭动画和audioCtx
+ */
 XAudioBox.prototype.stop = function () {
 	// this.audioObj.pause()
 	this.audioCtx.close()
